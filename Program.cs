@@ -9,6 +9,7 @@ namespace postfix
         static Token lexer(string input)
         {
             Token t = new Token();
+            string valueT = "";
             while(true) 
             {
                 currentChar = readChar(input);
@@ -16,15 +17,25 @@ namespace postfix
             }
             if (Char.IsNumber(currentChar)) 
             {
-                // TODO: to check if the next char is also a number 
-                // (if it is, concat them)
+                valueT = String.Concat(valueT, currentChar);
+                while(true)
+                {
+                    currentChar = readChar(input);
+                    if (Char.IsNumber(currentChar)) valueT = String.Concat(valueT, currentChar);
+                    else 
+                    {
+                        pos--;
+                        break;
+                    }
+                }
                 t.setTypeNumber();
-                t.setValue(currentChar);
-                Console.WriteLine(currentChar + " é numero");
+                t.setValue(valueT);
+                Console.WriteLine(valueT + " é numero");
                 return t;
             }
             t.setTypeSymbol();
-            t.setValue(currentChar);
+            valueT = String.Concat(valueT, currentChar);
+            t.setValue(valueT);
             Console.WriteLine(currentChar + " é simbolo");
             return t;
         }

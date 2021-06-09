@@ -3,7 +3,7 @@ using System;
 public class Token 
 {
     private string type;
-    private char value;
+    private string value;
     
     public void setTypeSymbol()
     {
@@ -13,7 +13,7 @@ public class Token
     {
         this.type = "number";
     }
-    public void setValue(char value)
+    public void setValue(string value)
     {
         this.value = value;
     }
@@ -21,7 +21,7 @@ public class Token
     {
         return this.type;
     }
-    public char getValue()
+    public string getValue()
     {
         return this.value;
     }
