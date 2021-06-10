@@ -6,13 +6,15 @@ namespace postfix
     {
         static int pos = -1;
         static char currentChar;
-        static Token lexer(string input)
+        static Token next = new Token();
+        static string input;
+        static Token lexer()
         {
             Token t = new Token();
             string valueT = "";
             while(true) 
             {
-                currentChar = readChar(input);
+                currentChar = readChar();
                 if (currentChar != ' ' && currentChar != '\n') break;
             }
             if (Char.IsNumber(currentChar)) 
@@ -20,7 +22,7 @@ namespace postfix
                 valueT = String.Concat(valueT, currentChar);
                 while(true)
                 {
-                    currentChar = readChar(input);
+                    currentChar = readChar();
                     if (Char.IsNumber(currentChar)) valueT = String.Concat(valueT, currentChar);
                     else 
                     {
@@ -40,7 +42,7 @@ namespace postfix
             return t;
         }
 
-        static char readChar(string input) 
+        static char readChar() 
         {
             pos++;
             if(pos < input.Length) {
@@ -48,13 +50,22 @@ namespace postfix
             }
             return ' ';
         }
+        static void parser(Token t) 
+        {
+            if (t.getType().Equals(next.getType()) && t.getValue().Equals(next.getType()))
+                next = lexer();
+            else
+            {
+                Console.WriteLine("*** Syntax Error! Values do not match. ***");
+                Environment.Exit(1);
+            }
+        }
 
         static void Main(string[] args)
         {
-            string input = Console.ReadLine();
-            Console.WriteLine(input);
+            input = Console.ReadLine();
             Token next = new Token();
-            next = lexer(input);
+            next = lexer();
         }
     }
 }
