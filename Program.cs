@@ -41,7 +41,6 @@ namespace postfix
             Console.WriteLine(currentChar + " é simbolo");
             return t;
         }
-
         static char readChar() 
         {
             pos++;
@@ -60,7 +59,20 @@ namespace postfix
                 Environment.Exit(1);
             }
         }
-
+        static void numbers()
+        {
+            if (next.getType().Equals("number")) 
+            {
+                Console.Write(next.getValue());
+                parser(next);
+            }
+            else
+            {
+                Console.WriteLine("*** Syntax Error! " + next.getValue() + " it's not a number. ***");
+                Environment.Exit(1);
+            }
+        }
+        
         static void Main(string[] args)
         {
             input = Console.ReadLine();
