@@ -49,7 +49,7 @@ namespace postfix
         }
         static void parser(Token t) 
         {
-           if (t.getType().Equals(next.getType()) && t.getValue().Equals(next.getValue()))
+            if (t.getType().Equals(next.getType()) && t.getValue().Equals(next.getValue()))
                 next = lexer();
             else
             {
