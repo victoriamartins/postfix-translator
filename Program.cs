@@ -99,7 +99,7 @@ namespace postfix
 
         static void Main(string[] args)
         {
-            Console.WriteLine("Type your infixed expression: ");
+            Console.WriteLine("Type a simple arithmetic expression: ");
             input = Console.ReadLine();
             next = lexer();
             postfix();
