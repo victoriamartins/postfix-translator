@@ -32,13 +32,11 @@ namespace postfix
                 }
                 t.setTypeNumber();
                 t.setValue(valueT);
-                Console.WriteLine(valueT + " é numero");
                 return t;
             }
             t.setTypeSymbol();
             valueT = String.Concat(valueT, currentChar);
             t.setValue(valueT);
-            Console.WriteLine(currentChar + " é simbolo");
             return t;
         }
         static char readChar() 
@@ -47,23 +45,22 @@ namespace postfix
             if(pos < input.Length) {
                 return input[pos];
             }
-            return ' ';
+            return '\t';
         }
         static void parser(Token t) 
         {
-            if (t.getType().Equals(next.getType()) && t.getValue().Equals(next.getType()))
+           if (t.getType().Equals(next.getType()) && t.getValue().Equals(next.getValue()))
                 next = lexer();
             else
             {
                 Console.WriteLine("*** Syntax Error! Values do not match. ***");
-                Environment.Exit(1);
             }
         }
         static void numbers()
         {
             if (next.getType().Equals("number")) 
             {
-                Console.Write(next.getValue());
+                Console.Write(next.getValue() + " ");
                 parser(next);
             }
             else
@@ -72,12 +69,40 @@ namespace postfix
                 Environment.Exit(1);
             }
         }
-        
+        static void postfix()
+        {
+            numbers();
+            while(true)
+            {
+                if (next.getType().Equals("symbol"))
+                {
+                    if (next.getValue().Equals("+"))
+                    {
+                        parser(next);
+                        numbers();
+                        Console.Write("+ ");
+                    } 
+                    else if (next.getValue().Equals("-"))
+                    {
+                        parser(next);
+                        numbers();
+                        Console.Write("- ");
+                    } else {
+                        break;
+                    }
+                } 
+                else {
+                    break;
+                }
+            }
+        }
+
         static void Main(string[] args)
         {
+            Console.WriteLine("Type your infixed expression: ");
             input = Console.ReadLine();
-            Token next = new Token();
             next = lexer();
+            postfix();
         }
     }
 }
