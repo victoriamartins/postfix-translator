@@ -5,40 +5,8 @@ namespace postfix
     class Program
     {
         static int pos = -1;
-        static char currentChar;
         static Token next = new Token();
         static string input;
-        static Token lexer()
-        {
-            Token t = new Token();
-            string valueT = "";
-            while(true) 
-            {
-                currentChar = readChar();
-                if (currentChar != ' ' && currentChar != '\n') break;
-            }
-            if (Char.IsNumber(currentChar)) 
-            {
-                valueT = String.Concat(valueT, currentChar);
-                while(true)
-                {
-                    currentChar = readChar();
-                    if (Char.IsNumber(currentChar)) valueT = String.Concat(valueT, currentChar);
-                    else 
-                    {
-                        pos--;
-                        break;
-                    }
-                }
-                t.setTypeNumber();
-                t.setValue(valueT);
-                return t;
-            }
-            t.setTypeSymbol();
-            valueT = String.Concat(valueT, currentChar);
-            t.setValue(valueT);
-            return t;
-        }
         static char readChar() 
         {
             pos++;
@@ -50,7 +18,7 @@ namespace postfix
         static void parser(Token t) 
         {
             if (t.getType().Equals(next.getType()) && t.getValue().Equals(next.getValue()))
-                next = lexer();
+                Console.Write(" ");
             else
             {
                 Console.WriteLine("*** Syntax Error! Values do not match. ***");
@@ -99,10 +67,12 @@ namespace postfix
 
         static void Main(string[] args)
         {
-            Console.WriteLine("Type a simple arithmetic expression: ");
-            input = Console.ReadLine();
-            next = lexer();
-            postfix();
+            //Console.WriteLine("Type a simple arithmetic expression: ");
+            input = "2 + 8";
+            Lexer l = new Lexer(input);
+            Token t = new Token();
+            t = l.lexer();
+            Console.WriteLine(t.getType() + " " + t.getValue());
         }
     }
 }
